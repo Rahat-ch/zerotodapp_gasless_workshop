@@ -5,7 +5,7 @@ export default function AdminDashboard({ climateCoinContract }) {
   const [acreage, setAcreage] = useState("");
   const handleAddFarmer = async (e) => {
     e.preventDefault();
-    await climateCoinContract.registerFarmer([farmerAddress], [acreage])
+    await climateCoinContract.registerFarmer(farmerAddress, acreage)
   }
   console.log(farmerAddress)
   console.log(acreage)

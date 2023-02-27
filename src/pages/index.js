@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { ethers } from 'ethers'
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import ClimateCoinJson from "@/utils/ClimateCoin.json";
+import ClimateCoinAbi from "@/utils/ClimateCoinAbi.json";
 import AdminDashboard from '@/components/AdminDashboard';
 import FarmerDashboard from '@/components/FarmerDashboard';
 
-const contractAddress = "0x41655E1fAcd6FEC803FeB6D4Ee95E91fdC4d686c"
+const contractAddress = "0x61c023FBD475A2a46aba79b5f72c83239bDa2fd2"
 
 export default function Home() {
   const [address, setAddress] = useState(null);
@@ -21,7 +21,7 @@ export default function Home() {
       const signer = provider.getSigner();
       const address = await signer.getAddress();
       setAddress(address);
-      const connectedContract = new ethers.Contract(contractAddress, ClimateCoinJson.abi, signer)
+      const connectedContract = new ethers.Contract(contractAddress, ClimateCoinAbi, signer)
       setClimateCoinContract(connectedContract);
       setIsFarmer(await connectedContract.isAFarmer(address))
       setIsAdmin(await connectedContract.isAnAdmin(address))
@@ -43,7 +43,7 @@ export default function Home() {
         <h1>Climate Coin</h1>
         {!address && <button onClick={() => handleWalletConnect()}>Connect Wallet</button>}
         {isAdmin && <AdminDashboard climateCoinContract={climateCoinContract} />}
-        {isFarmer && <FarmerDashboard />}
+        {isFarmer && <FarmerDashboard address={address} />}
       </main>
     </>
   )
