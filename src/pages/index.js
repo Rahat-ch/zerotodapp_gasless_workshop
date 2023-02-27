@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { ethers } from 'ethers'
 import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
 import ClimateCoinAbi from "@/utils/ClimateCoinAbi.json";
 import AdminDashboard from '@/components/AdminDashboard';
 import FarmerDashboard from '@/components/FarmerDashboard';
+
+import { Container, Heading, Button, Text } from '@chakra-ui/react'
 
 const contractAddress = "0x61c023FBD475A2a46aba79b5f72c83239bDa2fd2"
 
@@ -39,12 +40,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <h1>Climate Coin</h1>
-        {!address && <button onClick={() => handleWalletConnect()}>Connect Wallet</button>}
+      <Container textAlign="center" paddingTop="50px">
+        <Heading>Climate Coin</Heading>
+        {!address && <Text paddingTop="20px">Click below to connect your wallet and process claims for ClimateCoin</Text>}
+        {!address && <Button backgroundColor="black" colorScheme="blackAlpha" marginTop="20px" onClick={() => handleWalletConnect()}>Connect Wallet</Button>}
+
         {isAdmin && <AdminDashboard climateCoinContract={climateCoinContract} />}
         {isFarmer && <FarmerDashboard address={address} />}
-      </main>
+      </Container>
     </>
   )
 }

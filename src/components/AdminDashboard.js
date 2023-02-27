@@ -1,4 +1,5 @@
 import { useState} from "react"
+import { Input, Text, Box, Button } from '@chakra-ui/react'
 
 export default function AdminDashboard({ climateCoinContract }) {
   const [farmerAddress, setFarmerAddress] = useState("");
@@ -12,13 +13,19 @@ export default function AdminDashboard({ climateCoinContract }) {
   return(
     <>
     <h2>Add A Farmer</h2>
+    <Box marginTop="25px">
     <form onSubmit={(e) => handleAddFarmer(e)}>
-      <label>Address</label><br />
-      <input type="text" value={farmerAddress} onChange={(e) => setFarmerAddress(e.target.value)} /><br />
-      <label>Acreage</label><br />
-      <input type="number" value={acreage} onChange={(e) => setAcreage(e.target.value)}  /><br />
-      <input type="submit" value="Register Farmer"/>
+      <Text>Address: </Text>
+      <Input placeholder="address" value={farmerAddress} onChange={(e) => setFarmerAddress(e.target.value)} />
+      <Text>Acreage</Text>
+      <Input placeholder="acreage" value={acreage} onChange={(e) => setAcreage(e.target.value)}  />
+      <Input 
+      as={Button} 
+      type="submit" 
+      backgroundColor="black" 
+      color="white">Register Farmer</Input>
     </form>
+    </Box>
     </>
   )
 }
