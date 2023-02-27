@@ -7,6 +7,7 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
+  distDir: 'out',
   trailingSlash: true,
   assetPrefix: './',
   webpack(config) {

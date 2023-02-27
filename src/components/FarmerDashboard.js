@@ -72,6 +72,62 @@ export default function FarmerDashboard ({ address }) {
       });
     } catch (error) {
       console.log(error)
+      toast({
+        title: 'Error',
+        description: `Transaction has failed with error ${error.message}`,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+
+
+  const handleProcessReward = async () => {
+    toast({
+      title: 'Processing',
+      description: `Submitting Transaction`,
+      status: 'info',
+      duration: 9000,
+      isClosable: true,
+    })
+    const { data } = await climateCoinContractBiconomy.populateTransaction.processRewards()
+    const txParams = {
+      data,
+      to: contractAddress,
+      from: address,
+      signatureType: "EIP712_SIGN",
+    }
+
+    try {
+      await provider.send("eth_sendTransaction", [txParams]);
+      biconomy.on("txHashGenerated", (data) => {
+        toast({
+          title: 'Processing',
+          description: `Transaction is processing with hash ${data.hash}`,
+          status: 'info',
+          duration: 9000,
+          isClosable: true,
+        })
+      });
+      biconomy.on("txMined", (data) => {
+        toast({
+          title: 'Completed',
+          description: `Transaction has completed with hash ${data.hash}`,
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+      });
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Error',
+        description: `Transaction has failed with error ${error.message}`,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 
@@ -88,6 +144,11 @@ export default function FarmerDashboard ({ address }) {
       colorScheme="blackAlpha" 
       marginTop="20px"  
       onClick={() => handleAddClaim()}>Add a Claim</Button>}
+      {!isLoading && <Button 
+      backgroundColor="black" 
+      colorScheme="blackAlpha" 
+      marginTop="20px"  
+      onClick={() => handleProcessReward()}>Get Reward</Button>}
     </>
   )
 }
